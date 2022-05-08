@@ -155,6 +155,223 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/03/24/2022/Docker-CVE-2012-2122/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Eastern_Michigan_University_seal.svg.png">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/03/24/2022/Docker-CVE-2012-2122/" class="post-title-link" itemprop="url">Docker Installation & CVE-2012-2122 Reproduction</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 03-24-2022 19:39:08" itemprop="dateCreated datePublished" datetime="2022-03-24T19:39:08-04:00">03-24-2022</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Here are some useful links for reference, I believe they are enough.<br>Note: as for the docker and docker-compose installation and uninstallation, pay attention to some port numbers.</p>
+<hr>
+<p><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub">https://github.com/vulhub/vulhub</a><br><a target="_blank" rel="noopener" href="https://phoenixnap.com/kb/how-to-install-docker-on-debian-10">https://phoenixnap.com/kb/how-to-install-docker-on-debian-10</a><br><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/#alternative-install-options">https://docs.docker.com/compose/install/#alternative-install-options</a><br><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/debian/#install-from-a-package">https://docs.docker.com/engine/install/debian/#install-from-a-package</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/--kisaragi--/p/15393747.html">https://www.cnblogs.com/--kisaragi--/p/15393747.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/02/08/2022/Nessus-Installation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Eastern_Michigan_University_seal.svg.png">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/02/08/2022/Nessus-Installation/" class="post-title-link" itemprop="url">Nessus Installation</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 02-08-2022 19:26:33" itemprop="dateCreated datePublished" datetime="2022-02-08T19:26:33-05:00">02-08-2022</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>Download the [amd64.deb] file from official website</li>
+<li>Install Debian packages<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -<span class="selector-tag">i</span> <span class="selector-attr">[amd64.deb]</span></span><br></pre></td></tr></table></figure></li>
+<li>Start service<figure class="highlight crmsh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/systemctl <span class="literal">start</span> nessusd.service</span><br></pre></td></tr></table></figure></li>
+<li>Check port<pre><code>netstat -ntpl | grep nessus
+</code></pre>
+</li>
+</ol>
+<hr>
+<p>References:<br><a target="_blank" rel="noopener" href="https://www.tenable.com/downloads/nessus?loginAttempted=true">https://www.tenable.com/downloads/nessus?loginAttempted=true</a><br><a target="_blank" rel="noopener" href="https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html">https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012318074/article/details/72354387">https://blog.csdn.net/u012318074/article/details/72354387</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuyiqing/p/9712892.html">https://www.cnblogs.com/xuyiqing/p/9712892.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/01/24/2022/CentOS7-network-connection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Eastern_Michigan_University_seal.svg.png">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/01/24/2022/CentOS7-network-connection/" class="post-title-link" itemprop="url">VMware CentOS7 cannot connect to the network</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 01-24-2022 19:15:58" itemprop="dateCreated datePublished" datetime="2022-01-24T19:15:58-05:00">01-24-2022</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/CentOS7/" itemprop="url" rel="index"><span itemprop="name">CentOS7</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>The solution can be done by referring to the previous kali solution. If it doesn’t work, look step 2.</li>
+<li>Make sure the button is turned on in the network settings, if this step doesn’t work, look step 3.</li>
+<li>Maybe the problem is that the wired icon disappears, try the following code.<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv <span class="regexp">/var/</span>lib<span class="regexp">/NetworkManager /</span>var<span class="regexp">/lib/</span>NetworkManager.bak</span><br></pre></td></tr></table></figure>
+Then reboot and test the results.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/01/24/2022/Kali-network-connection/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -202,7 +419,14 @@
     <div class="post-body" itemprop="articleBody">
 
       
-          
+          <p>Sometimes we might encounter a situation that we cannot connect to the network. NAT or bridge mode cannot work, but the interface works well. Besides, we don’t use the network proxy.<br>In this case, we can try to use one of the following three ways to solve this problem.</p>
+<ol>
+<li>Remove the vitual machine’s network interface and add it again.</li>
+<li>Edit <strong>interfaces</strong> under directory <strong>/etc/network</strong> , then add the following codes.<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">auto</span> eth<span class="number">0</span></span><br><span class="line"><span class="attribute">iface</span> eth<span class="number">0</span> inet dhcp</span><br></pre></td></tr></table></figure>
+These two lines of code don’t necessarily solve the bridge networking problem</li>
+<li>Open the Virtual Network Editor and check the bridged NIC in bridge mode, if it is “Auto”, it is better to change it to the specific NIC name of our PC.<br>Save the changes and reopen the virtual machine to test the results.</li>
+</ol>
+
       
     </div>
 
@@ -343,20 +567,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">2</span>
+          <span class="site-state-item-count">5</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">1</span>
+        <span class="site-state-item-count">2</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
