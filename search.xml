@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search>
+  <entry>
+    <title>VMware CentOS7 cannot connect to the network</title>
+    <url>/01/24/2022/CentOS7-network-connection/</url>
+    <content><![CDATA[<ol>
+<li>The solution can be done by referring to the previous kali solution. If it doesn’t work, look step 2.</li>
+<li>Make sure the button is turned on in the network settings, if this step doesn’t work, look step 3.</li>
+<li>Maybe the problem is that the wired icon disappears, try the following code.<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line">mv <span class="regexp">/var/</span>lib<span class="regexp">/NetworkManager /</span>var<span class="regexp">/lib/</span>NetworkManager.bak</span><br></pre></td></tr></table></figure>
+Then reboot and test the results.</li>
+</ol>
+]]></content>
+      <categories>
+        <category>CentOS7</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>CentOS7</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>dnsmasq</title>
+    <url>/04/17/2022/DNSmasq/</url>
+    <content><![CDATA[<p>It’s about an Heap Overflow exploit in dnsmasq before 2.78. I tried to utilize docker to do that, but I failed. When I have more free time in the following two months, I will try to figure it out. The following is the failure screenshot, it seems I need to configure the environment again.<br><img src="/images/kali2022-2022-04-17.png"> </p>
+<hr>
+<p>Reference:<br><a href="https://github.com/google/security-research-pocs/tree/master/vulnerabilities/dnsmasq">https://github.com/google/security-research-pocs/tree/master/vulnerabilities/dnsmasq</a></p>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>CVE</tag>
+        <tag>Kali</tag>
+        <tag>Docker</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Cherrytree</title>
+    <url>/04/10/2022/Cherrytree/</url>
+    <content><![CDATA[<p><strong>Cherrytree</strong> is a good note-taking tool, which has already been installed in Kali. It’s also friendly for the Windows system, just download it from Google, which could be helpful for your study.</p>
+]]></content>
+      <categories>
+        <category>Windows10</category>
+      </categories>
+      <tags>
+        <tag>Installation</tag>
+        <tag>Windows10</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Docker Installation &amp; CVE-2012-2122 Reproduction</title>
+    <url>/03/24/2022/Docker-CVE-2012-2122/</url>
+    <content><![CDATA[<p>Here are some useful links for reference, I believe they are enough.<br>Note: as for the docker and docker-compose installation and uninstallation, pay attention to some port numbers.</p>
+<hr>
+<p>References:<br><a href="https://github.com/vulhub/vulhub">https://github.com/vulhub/vulhub</a><br><a href="https://phoenixnap.com/kb/how-to-install-docker-on-debian-10">https://phoenixnap.com/kb/how-to-install-docker-on-debian-10</a><br><a href="https://docs.docker.com/compose/install/#alternative-install-options">https://docs.docker.com/compose/install/#alternative-install-options</a><br><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">https://docs.docker.com/engine/install/debian/#install-from-a-package</a><br><a href="https://www.cnblogs.com/--kisaragi--/p/15393747.html">https://www.cnblogs.com/--kisaragi--/p/15393747.html</a></p>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>Kali</tag>
+        <tag>Docker</tag>
+        <tag>Installation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Forensics Summary</title>
+    <url>/04/17/2022/Forensics-Summary/</url>
+    <content><![CDATA[<h1 id="Digital-forensics"><a href="#Digital-forensics" class="headerlink" title="Digital forensics"></a>Digital forensics</h1><ol>
+<li>Registry keys and their locations </li>
+<li>Prefetch files<br>Find from <strong>C:\Windows\Prefetch</strong></li>
+<li>Browser history - use <strong>Browsinghistoryview-x64</strong><br>Find from <strong>C:\Users%username%\AppData\Local\Microsoft\Windows\History</strong></li>
+<li>Cache - use <strong>IECacheView</strong><br>Find from <strong>C:\Users%USER%\AppData\Local\Microsoft\Windows\WebCache</strong></li>
+<li>Cookies - use <strong>IECookieViewer</strong><br>Find from <strong>C:\Users%username%\AppData\Roaming\Microsoft\Windows\Cookies</strong></li>
+<li>Windows firewall logs<br>Find from <strong>C:\Windows\system32\logfiles\firewall\pfirewall.log</strong></li>
+<li>Windows event logs<br>Find from <strong>C:\Windows\System32\config</strong></li>
+<li>If you have full access to the source, the easiest way to determine when a USB was installed<br>Find from <strong>C:\Windows\inf\setupapi.dev.log</strong></li>
+<li>OS name and product ID<br>Find from <strong>HKEY_LOCAL_MACHINE\TEST\Microsoft\Windows NT\CurrentVersion 14</strong></li>
+<li>Check URLs under NTuser.dat<br>under <strong>raw data\software\microsoft\typed urls</strong></li>
+<li>SYSTEM file can show the network connection information</li>
+<li>Chrome cache - use ChromeCacheView<br>Find from <strong>C:\Users%username\Desktop\Google\AppData\Local\Google\Chrome\User  Data\default\Cache</strong></li>
+<li>Chrome history - use ChromeHistoryView<br>Find from <strong>C:\Users\username\Desktop\Google\AppData\Local\Google\Chrome\User Data\Default\History</strong><br>More useful tools<br>Autopsy, Windows Registry Recovery, RegRipper, Technology Pathways ProDiscover Basic.</li>
+</ol>
+<h1 id="Network-forensics"><a href="#Network-forensics" class="headerlink" title="Network forensics"></a>Network forensics</h1><ol>
+<li>Some useful tools<br>Snort, Security onion, Pfsense, Wireshark, NetworkMiner.</li>
+<li>A useful website to practice<br>Find from <strong><a href="https://www.malware-traffic-analysis.net/training-exercises.html">https://www.malware-traffic-analysis.net/training-exercises.html</a></strong> </li>
+</ol>
+<h1 id="Memory-forensics"><a href="#Memory-forensics" class="headerlink" title="Memory forensics"></a>Memory forensics</h1><ol>
+<li>A useful tool - Volatility</li>
+<li>Some examples:</li>
+</ol>
+<p><em>Identify the information for the captured image</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem imageinfo</span><br></pre></td></tr></table></figure>
+<p><em>Print process list as a tree</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> pstree</span><br></pre></td></tr></table></figure>
+<p><em>Show the running processes</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> pslist</span><br></pre></td></tr></table></figure>
+<p><em>Print list of loaded dlls for the Pid 404 process</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> dlllist -p <span class="number">404</span></span><br></pre></td></tr></table></figure>
+<p><em>View active &amp; previous network connections</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> connections</span><br></pre></td></tr></table></figure>
+<p><em>To find hidden and injected code</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> malfind</span><br></pre></td></tr></table></figure>
+<p><em>IE history records</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> iehistory</span><br></pre></td></tr></table></figure>
+<p><em>Review the services list</em></p>
+<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> svcscan</span><br></pre></td></tr></table></figure>
+<h1 id="Live-response-triage"><a href="#Live-response-triage" class="headerlink" title="Live response (triage)"></a>Live response (triage)</h1><p>Use <strong>LiveResponseCollection-Cedarpelta</strong><br>Find from <strong><a href="https://www.brimorlabsblog.com/2019/04/live-response-collection-cedarpelta.html">https://www.brimorlabsblog.com/2019/04/live-response-collection-cedarpelta.html</a></strong></p>
+]]></content>
+      <categories>
+        <category>Windows10</category>
+      </categories>
+      <tags>
+        <tag>Windows10</tag>
+        <tag>Forensics</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>VMware Kali cannot connect to the network</title>
+    <url>/01/24/2022/Kali-network-connection/</url>
+    <content><![CDATA[<p>Sometimes we might encounter a situation that we cannot connect to the network. NAT or bridge mode cannot work, but the interface works well. Besides, we don’t use the network proxy.<br>In this case, we can try to use one of the following three ways to solve this problem.</p>
+<ol>
+<li>Remove the vitual machine’s network interface and add it again.</li>
+<li>Edit <strong>interfaces</strong> under directory <strong>/etc/network</strong> , then add the following codes.<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">auto</span> eth<span class="number">0</span></span><br><span class="line"><span class="attribute">iface</span> eth<span class="number">0</span> inet dhcp</span><br></pre></td></tr></table></figure>
+These two lines of code don’t necessarily solve the bridge networking problem</li>
+<li>Open the Virtual Network Editor and check the bridged NIC in bridge mode, if it is “Auto”, it is better to change it to the specific NIC name of our PC.<br>Save the changes and reopen the virtual machine to test the results.</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>Kali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Nessus Installation</title>
+    <url>/02/08/2022/Nessus-Installation/</url>
+    <content><![CDATA[<ol>
+<li>Download the [amd64.deb] file from official website</li>
+<li>Install Debian packages<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">dpkg -<span class="selector-tag">i</span> <span class="selector-attr">[amd64.deb]</span></span><br></pre></td></tr></table></figure></li>
+<li>Start service<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">bin/systemctl <span class="literal">start</span> nessusd.service</span><br></pre></td></tr></table></figure></li>
+<li>Check port<pre><code>netstat -ntpl | grep nessus
+</code></pre>
+</li>
+</ol>
+<hr>
+<p>References:<br><a href="https://www.tenable.com/downloads/nessus?loginAttempted=true">https://www.tenable.com/downloads/nessus?loginAttempted=true</a><br><a href="https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html">https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html</a><br><a href="https://blog.csdn.net/u012318074/article/details/72354387">https://blog.csdn.net/u012318074/article/details/72354387</a><br><a href="https://www.cnblogs.com/xuyiqing/p/9712892.html">https://www.cnblogs.com/xuyiqing/p/9712892.html</a></p>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>Kali</tag>
+        <tag>Installation</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>WAMP64 Installation</title>
+    <url>/03/28/2022/WAMP64/</url>
+    <content><![CDATA[<p>If we have downloaded Visual 2012 and it still doesn’t work, try to use the following link to install <strong>Visual 2015-2022</strong>.<br><a href="https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170</a><br>As for the missing DLL files, try to use the following two links to download the related files, then move them under <strong>“C:\Windows\SysWOW64”</strong> and <strong>“C:\Windows\System32”</strong> if your machine is (Windows10/8/7/2008r2)64 bits.<br><a href="https://www.dll-files.com/msvcp120.dll.html">https://www.dll-files.com/msvcp120.dll.html</a><br><a href="https://www.dll-files.com/msvcr120.dll.html">https://www.dll-files.com/msvcr120.dll.html</a></p>
+<hr>
+<p>References:<br><a href="https://blog.csdn.net/weixin_42629862/article/details/85175692">https://blog.csdn.net/weixin_42629862/article/details/85175692</a><br><a href="https://sourceforge.net/projects/wampserver/files/WampServer%203/WampServer%203.0.0/wampserver3.2.6_x64.exe/download">https://sourceforge.net/projects/wampserver/files/WampServer%203/WampServer%203.0.0/wampserver3.2.6_x64.exe/download</a></p>
+]]></content>
+      <categories>
+        <category>Windows10</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>Installation</tag>
+        <tag>Windows10</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>CVE-2022-29072</title>
+    <url>/04/22/2022/cve-2022-29072/</url>
+    <content><![CDATA[<p>It’s about privilege escalation and a 7z vulnerability.<br>Personally speaking, I don’t think this 0day is very useful to exploit.</p>
+<hr>
+<p>References:<br><a href="https://github.com/kagancapar/CVE-2022-29072">https://github.com/kagancapar/CVE-2022-29072</a></p>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>CVE</tag>
+        <tag>Kali</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Merry Christmas!</title>
+    <url>/12/25/2021/my-first-blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.<br>Good luck, good health, good cheer for the coming new year.<br>Just want to test my website, nothing about Cybersecurity here.<br><img src="/images/3.jpg"></p>
+]]></content>
+  </entry>
+</search>
