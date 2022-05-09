@@ -155,6 +155,109 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/04/17/2022/Forensics-Summary/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/Eastern_Michigan_University_seal.svg.png">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/04/17/2022/Forensics-Summary/" class="post-title-link" itemprop="url">Forensics Summary</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 04-17-2022 23:51:51" itemprop="dateCreated datePublished" datetime="2022-04-17T23:51:51-04:00">04-17-2022</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Windows10/" itemprop="url" rel="index"><span itemprop="name">Windows10</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="Digital-forensics"><a href="#Digital-forensics" class="headerlink" title="Digital forensics"></a>Digital forensics</h1><ol>
+<li>Registry keys and their locations </li>
+<li>Prefetch files<br>Find from <strong>C:\Windows\Prefetch</strong></li>
+<li>Browser history - use <strong>Browsinghistoryview-x64</strong><br>Find from <strong>C:\Users%username%\AppData\Local\Microsoft\Windows\History</strong></li>
+<li>Cache - use <strong>IECacheView</strong><br>Find from <strong>C:\Users%USER%\AppData\Local\Microsoft\Windows\WebCache</strong></li>
+<li>Cookies - use <strong>IECookieViewer</strong><br>Find from <strong>C:\Users%username%\AppData\Roaming\Microsoft\Windows\Cookies</strong></li>
+<li>Windows firewall logs<br>Find from <strong>C:\Windows\system32\logfiles\firewall\pfirewall.log</strong></li>
+<li>Windows event logs<br>Find from <strong>C:\Windows\System32\config</strong></li>
+<li>If you have full access to the source, the easiest way to determine when a USB was installed, is via a log file found:</li>
+</ol>
+<p><strong>C:\Windows\inf\setupapi.dev.log</strong><br>9. OS name and product ID<br>Find from <strong>HKEY_LOCAL_MACHINE\TEST\Microsoft\Windows NT\CurrentVersion 14</strong><br>10. Check URLs under NTuser.dat<br>under <strong>raw data\software\microsoft\typed urls</strong><br>11. SYSTEM file can show the network connection information<br>12. Chrome cache - use ChromeCacheView<br>Find from<br><strong>C:\Users%username\Desktop\Google\AppData\Local\Google\Chrome\User  Data\default\Cache</strong><br>13. Chrome history - use ChromeHistoryView<br>Find from<br><strong>C:\Users\username\Desktop\Google\AppData\Local\Google\Chrome\User Data\Default\History</strong><br>More useful tools<br>Autopsy, Windows Registry Recovery, RegRipper, Technology Pathways ProDiscover Basic. </p>
+<h1 id="Network-forensics"><a href="#Network-forensics" class="headerlink" title="Network forensics"></a>Network forensics</h1><ol>
+<li>Some useful tools<br>Snort, Security onion, Pfsense, Wireshark, NetworkMiner.</li>
+<li>A useful website to practice</li>
+</ol>
+<p><strong><a target="_blank" rel="noopener" href="https://www.malware-traffic-analysis.net/training-exercises.html">https://www.malware-traffic-analysis.net/training-exercises.html</a></strong> </p>
+<h1 id="Memory-forensics"><a href="#Memory-forensics" class="headerlink" title="Memory forensics"></a>Memory forensics</h1><ol>
+<li>A useful tool - Volatility</li>
+<li>Some examples:</li>
+</ol>
+<p><em>Identify the information for the captured image</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem imageinfo</span><br></pre></td></tr></table></figure>
+<p><em>Print process list as a tree</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> pstree</span><br></pre></td></tr></table></figure>
+<p><em>Show the running processes</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> pslist</span><br></pre></td></tr></table></figure>
+<p><em>Print list of loaded dlls for the Pid 404 process</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> dlllist -p <span class="number">404</span></span><br></pre></td></tr></table></figure>
+<p><em>View active &amp; previous network connections</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> connections</span><br></pre></td></tr></table></figure>
+<p><em>To find hidden and injected code</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> malfind</span><br></pre></td></tr></table></figure>
+<p><em>IE history records</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> iehistory</span><br></pre></td></tr></table></figure>
+<p><em>Review the services list</em></p>
+<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">volatility_2</span>.<span class="number">6</span>_win<span class="number">64</span>_standalone.exe -f citadeldc<span class="number">01</span>.mem --profile=Win<span class="number">8</span>SP<span class="number">1</span>x<span class="number">64</span> svcscan</span><br></pre></td></tr></table></figure>
+<h1 id="Live-response-triage"><a href="#Live-response-triage" class="headerlink" title="Live response (triage)"></a>Live response (triage)</h1><p>Use <strong>LiveResponseCollection-Cedarpelta</strong><br>Find from <strong><a target="_blank" rel="noopener" href="https://www.brimorlabsblog.com/2019/04/live-response-collection-cedarpelta.html">https://www.brimorlabsblog.com/2019/04/live-response-collection-cedarpelta.html</a></strong></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/04/17/2022/DNSmasq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -772,7 +875,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">8</span>
+          <span class="site-state-item-count">9</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -785,7 +888,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>
