@@ -66,25 +66,6 @@ Then reboot and test the results.</li>
       </tags>
   </entry>
   <entry>
-    <title>VMware Kali cannot connect to the network</title>
-    <url>/01/24/2022/Kali-network-connection/</url>
-    <content><![CDATA[<p>Sometimes we might encounter a situation that we cannot connect to the network. NAT or bridge mode cannot work, but the interface works well. Besides, we don’t use the network proxy.<br>In this case, we can try to use one of the following three ways to solve this problem.</p>
-<ol>
-<li>Remove the vitual machine’s network interface and add it again.</li>
-<li>Edit <strong>interfaces</strong> under directory <strong>/etc/network</strong> , then add the following codes.<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">auto</span> eth<span class="number">0</span></span><br><span class="line"><span class="attribute">iface</span> eth<span class="number">0</span> inet dhcp</span><br></pre></td></tr></table></figure>
-These two lines of code don’t necessarily solve the bridge networking problem</li>
-<li>Open the Virtual Network Editor and check the bridged NIC in bridge mode, if it is “Auto”, it is better to change it to the specific NIC name of our PC.<br>Save the changes and reopen the virtual machine to test the results.</li>
-</ol>
-]]></content>
-      <categories>
-        <category>Kali</category>
-      </categories>
-      <tags>
-        <tag>Troubleshooting</tag>
-        <tag>Kali</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Forensics Summary</title>
     <url>/04/17/2022/Forensics-Summary/</url>
     <content><![CDATA[<h1 id="Digital-forensics"><a href="#Digital-forensics" class="headerlink" title="Digital forensics"></a>Digital forensics</h1><ol>
@@ -137,6 +118,25 @@ These two lines of code don’t necessarily solve the bridge networking problem<
       </tags>
   </entry>
   <entry>
+    <title>VMware Kali cannot connect to the network</title>
+    <url>/01/24/2022/Kali-network-connection/</url>
+    <content><![CDATA[<p>Sometimes we might encounter a situation that we cannot connect to the network. NAT or bridge mode cannot work, but the interface works well. Besides, we don’t use the network proxy.<br>In this case, we can try to use one of the following three ways to solve this problem.</p>
+<ol>
+<li>Remove the vitual machine’s network interface and add it again.</li>
+<li>Edit <strong>interfaces</strong> under directory <strong>/etc/network</strong> , then add the following codes.<figure class="highlight apache"><table><tr><td class="code"><pre><span class="line"><span class="attribute">auto</span> eth<span class="number">0</span></span><br><span class="line"><span class="attribute">iface</span> eth<span class="number">0</span> inet dhcp</span><br></pre></td></tr></table></figure>
+These two lines of code don’t necessarily solve the bridge networking problem</li>
+<li>Open the Virtual Network Editor and check the bridged NIC in bridge mode, if it is “Auto”, it is better to change it to the specific NIC name of our PC.<br>Save the changes and reopen the virtual machine to test the results.</li>
+</ol>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>Kali</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Nessus Installation</title>
     <url>/02/08/2022/Nessus-Installation/</url>
     <content><![CDATA[<ol>
@@ -175,12 +175,6 @@ These two lines of code don’t necessarily solve the bridge networking problem<
       </tags>
   </entry>
   <entry>
-    <title>Merry Christmas!</title>
-    <url>/12/25/2021/my-first-blog/</url>
-    <content><![CDATA[<p>Hello! This is my first blog.<br>Good luck, good health, good cheer for the coming new year.<br>Just want to test my website, nothing about Cybersecurity here.<br><img src="/images/3.jpg"></p>
-]]></content>
-  </entry>
-  <entry>
     <title>CVE-2022-29072</title>
     <url>/04/22/2022/cve-2022-29072/</url>
     <content><![CDATA[<p>It’s about privilege escalation and a 7z vulnerability.<br>Personally speaking, I don’t think this 0day is very useful to exploit.</p>
@@ -194,5 +188,11 @@ These two lines of code don’t necessarily solve the bridge networking problem<
         <tag>CVE</tag>
         <tag>Kali</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>Merry Christmas!</title>
+    <url>/12/25/2021/my-first-blog/</url>
+    <content><![CDATA[<p>Hello! This is my first blog.<br>Good luck, good health, good cheer for the coming new year.<br>Just want to test my website, nothing about Cybersecurity here.<br><img src="/images/3.jpg"></p>
+]]></content>
   </entry>
 </search>
