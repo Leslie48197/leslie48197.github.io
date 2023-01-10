@@ -142,7 +142,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
     <content><![CDATA[<ol>
 <li>Download the [amd64.deb] file from official website</li>
 <li>Install Debian packages<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">dpkg -<span class="selector-tag">i</span> <span class="selector-attr">[amd64.deb]</span></span><br></pre></td></tr></table></figure></li>
-<li>Start service<figure class="highlight crmsh"><table><tr><td class="code"><pre><span class="line">bin/systemctl <span class="literal">start</span> nessusd.service</span><br></pre></td></tr></table></figure></li>
+<li>Start service<figure class="highlight awk"><table><tr><td class="code"><pre><span class="line"><span class="regexp">/bin/</span>systemctl start nessusd.service</span><br></pre></td></tr></table></figure></li>
 <li>Check port<pre><code>netstat -ntpl | grep nessus
 </code></pre>
 </li>
