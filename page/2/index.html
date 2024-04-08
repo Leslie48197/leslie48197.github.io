@@ -185,6 +185,79 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/01/24/2022/Kali-network-connection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/01/24/2022/Kali-network-connection/" class="post-title-link" itemprop="url">VMware Kali cannot connect to the network</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 01-24-2022 04:01:47" itemprop="dateCreated datePublished" datetime="2022-01-24T04:01:47-05:00">01-24-2022</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>Sometimes we might encounter a situation that we cannot connect to the network. NAT or bridge mode cannot work, but the interface works well. Besides, we don’t use the network proxy.<br>In this case, we can try to use one of the following three ways to solve this problem.</p>
+<ol>
+<li>Remove the vitual machine’s network interface and add it again.</li>
+<li>Edit <strong>interfaces</strong> under directory <strong>/etc/network</strong> , then add the following codes.<figure class="highlight apache"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="attribute">auto</span> eth<span class="number">0</span></span><br><span class="line"><span class="attribute">iface</span> eth<span class="number">0</span> inet dhcp</span><br></pre></td></tr></table></figure>
+These two lines of code don’t necessarily solve the bridge networking problem</li>
+<li>Open the Virtual Network Editor and check the bridged NIC in bridge mode, if it is “Auto”, it is better to change it to the specific NIC name of our PC.<br>Save the changes and reopen the virtual machine to test the results.</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
     <link itemprop="mainEntityOfPage" href="http://example.com/12/25/2021/my-first-blog/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -310,20 +383,20 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">11</span>
+          <span class="site-state-item-count">12</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-categories">
             <a href="/categories/">
           
-        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-count">4</span>
         <span class="site-state-item-name">categories</span></a>
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
           
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">tags</span></a>
       </div>
   </nav>

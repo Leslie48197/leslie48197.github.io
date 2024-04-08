@@ -211,4 +211,17 @@ These two lines of code don’t necessarily solve the bridge networking problem<
     <content><![CDATA[<p>Hello! This is my first blog.<br>Good luck, good health, good cheer for the coming new year.<br>Just want to test my website, nothing about Cybersecurity here.<br><img src="/images/3.jpg"></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>MERN Stack Issue when Using DigitalOcean</title>
+    <url>/10/03/2023/MERN%20Stack%20Issue%20with%20DigitalOcean/</url>
+    <content><![CDATA[<p>When I used the MERN stack service on DigitalOcean and developed a web app by using TypeScript language, I got some HTTP request issues. After modifying the Nginx conf file on the remote server, this issue was solved finally.</p>
+]]></content>
+      <categories>
+        <category>DigitalOcean</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>DigitalOcean</tag>
+      </tags>
+  </entry>
 </search>
