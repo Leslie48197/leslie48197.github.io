@@ -195,4 +195,20 @@ These two lines of code don’t necessarily solve the bridge networking problem<
     <content><![CDATA[<p>Hello! This is my first blog.<br>Good luck, good health, good cheer for the coming new year.<br>Just want to test my website, nothing about Cybersecurity here.<br><img src="/images/3.jpg"></p>
 ]]></content>
   </entry>
+  <entry>
+    <title>Bridged Network Connection Issues</title>
+    <url>/03/17/2023/Bridged%20Network%20Connection%20Issues/</url>
+    <content><![CDATA[<p>Due to unknown reasons, A bridged issue with VMware could not be resolved.<br><strong>Step 1</strong>: We can find VMware through the <strong>programs</strong> in the control panel, right-click to make changes, and select Repair.<br><strong>Step 2</strong>: If the problem cannot be solved, the likely cause is a previous upgrade to the virtual machine version or inappropriate deletion of VMware’s configuration files, resulting in the disappearance of the network card. At this point, we need to download the VMware installation package and <strong>ccleaner</strong> software.<br><strong>Step 3</strong>: Use the <strong>VMware Workstation</strong> in the control panel to uninstall the installed VMware. Search for the keyword <strong>vm</strong> under the directory <strong>C:\Program Files</strong>, and then delete all files containing <strong>vm</strong>.<br><strong>Step 4</strong>: Use ccleaner to scan the registry. <strong>Select all</strong>, then fix all errors after scanning is complete.<br><strong>Step 5</strong>: Reuse VMware for installation, and all network card and network issues will be resolved.</p>
+<hr>
+<p>Reference:<br><a href="https://blog.csdn.net/czg13548930186/article/details/77099377">https://blog.csdn.net/czg13548930186/article/details/77099377</a></p>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>Kali</tag>
+        <tag>VMware</tag>
+      </tags>
+  </entry>
 </search>
