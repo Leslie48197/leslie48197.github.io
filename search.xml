@@ -224,4 +224,18 @@ These two lines of code don’t necessarily solve the bridge networking problem<
         <tag>DigitalOcean</tag>
       </tags>
   </entry>
+  <entry>
+    <title>How to use Armitage</title>
+    <url>/07/18/2024/Armitage%20Usage/</url>
+    <content><![CDATA[<p>Armitage is an extension of the Metasploit Framework - it adds a Graphical user interface and is written in Java, and is similar to Cobalt Strike. And a more important point is it is free.</p>
+<p><strong>OS detection scan</strong><br><img src="/images/Armitage-OS-scan.png"><br><strong>Exploit it via ms17_010_eternalblue</strong><br><img src="/images/Armitage-Exploitation.png"> </p>
+]]></content>
+      <categories>
+        <category>C2</category>
+      </categories>
+      <tags>
+        <tag>Kali</tag>
+        <tag>C2</tag>
+      </tags>
+  </entry>
 </search>
