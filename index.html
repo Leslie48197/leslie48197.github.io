@@ -185,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/07/18/2024/Armitage%20Usage/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/06/30/2025/Dnsmasq%202.78/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -199,7 +199,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/07/18/2024/Armitage%20Usage/" class="post-title-link" itemprop="url">How to use Armitage</a>
+            <a href="/06/30/2025/Dnsmasq%202.78/" class="post-title-link" itemprop="url">AUTO Dnsmasq 2.78</a>
         </h2>
 
         <div class="post-meta">
@@ -209,7 +209,121 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 07-18-2024 13:43:05" itemprop="dateCreated datePublished" datetime="2024-07-18T13:43:05-04:00">07-18-2024</time>
+              <time title="Created: 06-30-2025 00:20:16" itemprop="dateCreated datePublished" datetime="2025-06-30T00:20:16+08:00">06-30-2025</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>It’s about an Heap Overflow exploit in dnsmasq before 2.78. I failed to reproduce this vulnerability 3 years ago. This time I modified the POC again, then tried to figure it out. I listed the detailed steps below.</p>
+<h1 id="Installing-docker-and-apt-utils"><a href="#Installing-docker-and-apt-utils" class="headerlink" title="Installing docker and apt-utils"></a>Installing docker and apt-utils</h1><ol>
+<li>   Enter the command: <strong>sudo apt install apt-utils</strong></li>
+<li>   Restart the system</li>
+<li>   When the system reboots, open a terminal window</li>
+<li>   Enter the command <strong>sudo apt install -y docker.io</strong></li>
+<li>   Then, Enter the command <strong>sudo systemctl enable docker –now</strong></li>
+</ol>
+<hr>
+<h1 id="Configuring-The-POC"><a href="#Configuring-The-POC" class="headerlink" title="Configuring The POC"></a>Configuring The POC</h1><ol>
+<li>   Enter the command : <strong>git clone <a target="_blank" rel="noopener" href="https://github.com/google/security-research-pocs.git">https://github.com/google/security-research-pocs.git</a></strong></li>
+<li>   Then, Enter the command <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong></li>
+<li>   Replace the dockerfile in the directory with the one in appendix A. It has been modernized to run on the current stable distribution of Debian (Bullseye) </li>
+<li>   Run the command <strong>docker build -t dnsmasq</strong>.</li>
+<li>   Run the command: <strong>docker run –rm -t -i –name dnsmasq_test dnsmasq bash</strong></li>
+<li>   This brings up a new terminal: root@<containter_ID>. Take note of this string of characters (example highlighted below). The String of numbers after root is the container ID.<br><img src="/images/container-ID.png"></li>
+<li>   In the Terminal application, click on File&gt;New Tab</li>
+<li>   In this new tab enter the command:                    <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong></li>
+<li>   Then enter the command:                               <strong>docker cp CVE-2017-14491.py dnsmasq_test:/CVE-2017-14491.py</strong></li>
+<li>   With the POC script copied over, enter the following command in the terminal: <strong>docker exec -it <container_id> bash</strong></li>
+<li>   This should open up a second docker terminal.</li>
+<li>   There needs to be three terminals for the exploit, repeat the following steps:<br>a.    In the terminal application, click on <strong>File&gt;New Tab</strong><br>b.    In The new terminal enter the command:               <strong>cd /security-research-pocs/vulnerabilities/dnsmasq/</strong><br>c.    Finally, run the command:                            <strong>docker exec -it <container_id> bash</strong></li>
+</ol>
+<hr>
+<h1 id="Running-the-Exploit"><a href="#Running-the-Exploit" class="headerlink" title="Running the Exploit"></a>Running the Exploit</h1><ol>
+<li>   To start the malicious DNS server enter the following commands:<br>a.    <strong>python2 CVE-2017-14491.py 127.0.0.2 53</strong><br>b.    The output should look like this:<br><img src="/images/CVE-2017-14491.png"></li>
+<li>   In a different terminal, start dnsmasq by entering the following commands:<br>a.    <strong>cd src/</strong><br>b.    <strong>./dnsmasq -p 53535 –no-daemon –log-queries -S 127.0.0.2 –no-hosts –no-resolv</strong><br>c.    The output of this command should look like:<br><img src="/images/dnsmasq-start.png"></li>
+<li>   Finally in the third remaining terminal enter the following command to send requests to the bad server:<br>a.    <strong>dig @localhost -p 53535 -x 8.8.8.125 &gt; /dev/null</strong><br>b.    Repeat this step by pressing the up arrow and enter<br>c.    Do this until the dnsmasq tab outputs something like this:<br><img src="/images/dnsmasq-crashes.png"></li>
+<li>This collection of Z’s means that dnsmasq has crashed, which in theory would allow a threat actor to run remote code on via a buffer overflow. Google’s security team originally wrote this proof of concept on Debian Jessie Linux distribution. Unfortunately, Debian Jesse reached its end of life on June 30th 2020. To remedy this, a member of the group edited the dockerfile to update the packages and dependencies to run on modern Linux. To see if the dockerfile would run, this member rolled the DNS git repository back to 2.68. With the exploit proven, the next logical step would be to load the version of dnsmasq that is found on the GMC Sierra bench to see if it is also vulnerable. The steps are the same as the ones listed above but in a different directory. Going back to the home directory of the root user, a new directory was created: GMCTRUCKmasq. The Google POC github repository was then cloned to this directory. The same path was navigated, but instead of copying the dockerfile, the dockerfile itself was deleted. A new dockerfile was created using the command “nano Dockerfile” and the contents of the version 2.68 file were copied over. The only difference between the version 2.68 dockerfile and the version 2.5.2 dockerfile is the content ID. Git repositories allow the user to roll back a repository to an earlier version of the software using the command git Checkout. This was beneficial because although the GMC is running a vulnerable version of dnsmasq, the current repository hosted at <a target="_blank" rel="noopener" href="http://thekelleys.org.uk/dnsmasq.git">http://thekelleys.org.uk/dnsmasq.git</a> has since patched this vulnerability. For the convenience of researchers attempting to recreate the steps of this experiment, a version of the dockerfile made for version 2.52 has been added below the dockerfile for version 2.68. From this point forward, the exact same steps were taken to attempt the exploit on version 2.52. After setting everything up per the instructions above, The first thing to check was that dnsmasq was running the intended version. executing ./dnsmasq -p 53535 –no-daemon –log-queries -S 127.0.0.2 –no-hosts –no-resolv shows the following output:<br><img src="/images/dnsmasq-output.png"></li>
+<li>With the version of the car ensured, the next step was to send dig commands to see if it was possible to crash the dnsmasq. The result of this test was as follows:<br><img src="/images/test-output.png"></li>
+</ol>
+<hr>
+<h1 id="Appendix-A"><a href="#Appendix-A" class="headerlink" title="Appendix A"></a>Appendix A</h1><p>Appendix A – Dnsmasq Dockerfile Fix<br>Modified from the dockerfile located at: <a target="_blank" rel="noopener" href="https://github.com/google/security-research-pocs">https://github.com/google/security-research-pocs</a> (dnsmasq ver. 2.68 et. 2.52)<br><strong>Version 2.68:</strong><br>FROM debian</p>
+<p>RUN apt-get update<br>RUN apt-get install -y wget git make gnupg nano python2 dnsutils</p>
+<p>#Unfortunately, this key isn’t available over HTTPS.<br>RUN wget -O /tmp/llvm-snapshot.gpg.key <a target="_blank" rel="noopener" href="https://apt.llvm.org/llvm-snapshot.gpg.key">https://apt.llvm.org/llvm-snapshot.gpg.key</a><br>RUN apt-key add /tmp/llvm-snapshot.gpg.key<br>RUN bash -c ‘echo “deb <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN bash -c ‘echo “deb-src <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN apt-get update<br>RUN apt-get install -y libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python3-clang-13 clangd-13 clang-tidy-13 libfuzzer-13-dev lldb-13 lld-13 libclc-13-dev libfuzzer-13-dev libc++-13-dev libc++abi-13-dev</p>
+<p>ENV CFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV CXXFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV LDFLAGS=”-g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound”<br>ENV CC=”/usr/bin/clang-13”<br>ENV CXX=”/usr/bin/clang++-13”<br>ENV ASAN_OPTIONS=”exitcode=1,handle_segv=1,detect_leaks=1,leak_check_at_exit=1,allocator_may_return_null=1,detect_odr_violation=0”<br>ENV ASAN_SYMBOLIZER_PATH=”/usr/lib/llvm-13/bin/llvm-symbolizer”</p>
+<p>RUN bash -c ‘echo “export CFLAGS=&quot;${CFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export LDFLAGS=&quot;${LDFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CC=&quot;${CC}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXX=&quot;${CXX}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_OPTIONS=&quot;${ASAN_OPTIONS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_SYMBOLIZER_PATH=&quot;${ASAN_SYMBOLIZER_PATH}&quot;“ &gt;&gt; /root/.bashrc’</p>
+<p>WORKDIR /test<br>RUN git clone git://thekelleys.org.uk/dnsmasq.git<br>WORKDIR /test/dnsmasq<br>#switch to 2.6.8<br>RUN git checkout 56ad6c9be1b48791edfb140f87c3738dd723d116<br>#Patch Makefile so we can compile with ASAN<br>RUN sed -i’’ ‘s/LDFLAGS       =/LDFLAGS       ?=/‘ Makefile<br>RUN sed -i’’ ‘s/CFLAGS        =/CFLAGS        ?=/‘ Makefile<br>RUN make</p>
+<p>#Only the last ENTRYPOINT or CMD is honored, so this can be overridden.<br>ENTRYPOINT /bin/bash</p>
+<p><strong>Version 2.5.2</strong><br>FROM debian</p>
+<p>RUN apt-get update<br>RUN apt-get install -y wget git make gnupg nano python2 dnsutils</p>
+<p>#Unfortunately, this key isn’t available over HTTPS.<br>RUN wget -O /tmp/llvm-snapshot.gpg.key <a target="_blank" rel="noopener" href="https://apt.llvm.org/llvm-snapshot.gpg.key">https://apt.llvm.org/llvm-snapshot.gpg.key</a><br>RUN apt-key add /tmp/llvm-snapshot.gpg.key<br>RUN bash -c ‘echo “deb <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN bash -c ‘echo “deb-src <a target="_blank" rel="noopener" href="http://apt.llvm.org/bullseye/">http://apt.llvm.org/bullseye/</a> llvm-toolchain-bullseye-13 main” &gt;&gt; /etc/apt/sources.list’<br>RUN apt-get update<br>RUN apt-get install -y libllvm-13-ocaml-dev libllvm13 llvm-13 llvm-13-dev llvm-13-doc llvm-13-examples llvm-13-runtime clang-13 clang-tools-13 clang-13-doc libclang-common-13-dev libclang-13-dev libclang1-13 clang-format-13 python3-clang-13 clangd-13 clang-tidy-13 libfuzzer-13-dev lldb-13 lld-13 libclc-13-dev libfuzzer-13-dev libc++-13-dev libc++abi-13-dev</p>
+<p>ENV CFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV CXXFLAGS=”-O1 -g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound -fno-sanitize-recover=all -fno-omit-frame-pointer -DFUZZING_BUILD_MODE_UNSAFE_FOR_PRODUCTION=1”<br>ENV LDFLAGS=”-g -fsanitize=address,bool,float-cast-overflow,integer-divide-by-zero,return,returns-nonnull-attribute,shift-exponent,signed-integer-overflow,unreachable,vla-bound”<br>ENV CC=”/usr/bin/clang-13”<br>ENV CXX=”/usr/bin/clang++-13”<br>ENV ASAN_OPTIONS=”exitcode=1,handle_segv=1,detect_leaks=1,leak_check_at_exit=1,allocator_may_return_null=1,detect_odr_violation=0”<br>ENV ASAN_SYMBOLIZER_PATH=”/usr/lib/llvm-13/bin/llvm-symbolizer”</p>
+<p>RUN bash -c ‘echo “export CFLAGS=&quot;${CFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export LDFLAGS=&quot;${LDFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CC=&quot;${CC}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXX=&quot;${CXX}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export CXXFLAGS=&quot;${CXXFLAGS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_OPTIONS=&quot;${ASAN_OPTIONS}&quot;“ &gt;&gt; /root/.bashrc’<br>RUN bash -c ‘echo “export ASAN_SYMBOLIZER_PATH=&quot;${ASAN_SYMBOLIZER_PATH}&quot;“ &gt;&gt; /root/.bashrc’</p>
+<p>WORKDIR /test<br>RUN git clone git://thekelleys.org.uk/dnsmasq.git<br>WORKDIR /test/dnsmasq<br>#switch to 2.52<br>RUN git checkout 316e2730acfc439c6bb12beb7c286daffb3cac4e<br>#Patch Makefile so we can compile with ASAN<br>RUN sed -i’’ ‘s/LDFLAGS       =/LDFLAGS       ?=/‘ Makefile<br>RUN sed -i’’ ‘s/CFLAGS        =/CFLAGS        ?=/‘ Makefile<br>RUN make</p>
+<p>#Only the last ENTRYPOINT or CMD is honored, so this can be overridden.<br>ENTRYPOINT /bin/bash</p>
+<hr>
+<h1 id="Acknowledgments"><a href="#Acknowledgments" class="headerlink" title="Acknowledgments"></a>Acknowledgments</h1><h2 id="Thanks-for-the-efforts-from-all-of-my-American-group-members"><a href="#Thanks-for-the-efforts-from-all-of-my-American-group-members" class="headerlink" title="Thanks for the efforts from all of my American group members."></a>Thanks for the efforts from all of my American group members.</h2><h1 id="Reference"><a href="#Reference" class="headerlink" title="Reference:"></a>Reference:</h1><p>Google.(2021, March 12). security-research-pocs. Retrieved from GitHub : <a target="_blank" rel="noopener" href="https://github.com/google/security-research-pocs">https://github.com/google/security-research-pocs</a> </p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/07/19/2024/Armitage%20Usage/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/07/19/2024/Armitage%20Usage/" class="post-title-link" itemprop="url">How to use Armitage</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 07-19-2024 01:43:05" itemprop="dateCreated datePublished" datetime="2024-07-19T01:43:05+08:00">07-19-2024</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -277,7 +391,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 10-03-2023 10:11:05" itemprop="dateCreated datePublished" datetime="2023-10-03T10:11:05-04:00">10-03-2023</time>
+              <time title="Created: 10-03-2023 22:11:05" itemprop="dateCreated datePublished" datetime="2023-10-03T22:11:05+08:00">10-03-2023</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -344,7 +458,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 03-17-2023 11:50:23" itemprop="dateCreated datePublished" datetime="2023-03-17T11:50:23-04:00">03-17-2023</time>
+              <time title="Created: 03-17-2023 23:50:23" itemprop="dateCreated datePublished" datetime="2023-03-17T23:50:23+08:00">03-17-2023</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -413,7 +527,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 04-22-2022 00:46:45" itemprop="dateCreated datePublished" datetime="2022-04-22T00:46:45-04:00">04-22-2022</time>
+              <time title="Created: 04-22-2022 12:46:45" itemprop="dateCreated datePublished" datetime="2022-04-22T12:46:45+08:00">04-22-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -458,7 +572,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/04/17/2022/Forensics-Summary/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/04/18/2022/Forensics-Summary/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -472,7 +586,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/04/17/2022/Forensics-Summary/" class="post-title-link" itemprop="url">Forensics Summary</a>
+            <a href="/04/18/2022/Forensics-Summary/" class="post-title-link" itemprop="url">Forensics Summary</a>
         </h2>
 
         <div class="post-meta">
@@ -482,7 +596,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 04-17-2022 23:51:51" itemprop="dateCreated datePublished" datetime="2022-04-17T23:51:51-04:00">04-17-2022</time>
+              <time title="Created: 04-18-2022 11:51:51" itemprop="dateCreated datePublished" datetime="2022-04-18T11:51:51+08:00">04-18-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -564,7 +678,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/04/17/2022/DNSmasq/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/04/18/2022/DNSmasq/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -578,7 +692,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/04/17/2022/DNSmasq/" class="post-title-link" itemprop="url">dnsmasq</a>
+            <a href="/04/18/2022/DNSmasq/" class="post-title-link" itemprop="url">dnsmasq</a>
         </h2>
 
         <div class="post-meta">
@@ -588,7 +702,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 04-17-2022 23:22:16" itemprop="dateCreated datePublished" datetime="2022-04-17T23:22:16-04:00">04-17-2022</time>
+              <time title="Created: 04-18-2022 11:22:16" itemprop="dateCreated datePublished" datetime="2022-04-18T11:22:16+08:00">04-18-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -633,7 +747,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/04/10/2022/Cherrytree/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/04/11/2022/Cherrytree/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -647,7 +761,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/04/10/2022/Cherrytree/" class="post-title-link" itemprop="url">Cherrytree</a>
+            <a href="/04/11/2022/Cherrytree/" class="post-title-link" itemprop="url">Cherrytree</a>
         </h2>
 
         <div class="post-meta">
@@ -657,7 +771,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 04-10-2022 20:09:50" itemprop="dateCreated datePublished" datetime="2022-04-10T20:09:50-04:00">04-10-2022</time>
+              <time title="Created: 04-11-2022 08:09:50" itemprop="dateCreated datePublished" datetime="2022-04-11T08:09:50+08:00">04-11-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -700,7 +814,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/03/28/2022/WAMP64/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/03/29/2022/WAMP64/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -714,7 +828,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/03/28/2022/WAMP64/" class="post-title-link" itemprop="url">WAMP64 Installation</a>
+            <a href="/03/29/2022/WAMP64/" class="post-title-link" itemprop="url">WAMP64 Installation</a>
         </h2>
 
         <div class="post-meta">
@@ -724,7 +838,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 03-28-2022 19:51:01" itemprop="dateCreated datePublished" datetime="2022-03-28T19:51:01-04:00">03-28-2022</time>
+              <time title="Created: 03-29-2022 07:51:01" itemprop="dateCreated datePublished" datetime="2022-03-29T07:51:01+08:00">03-29-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -769,7 +883,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/03/24/2022/Docker-CVE-2012-2122/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/03/25/2022/Docker-CVE-2012-2122/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -783,7 +897,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/03/24/2022/Docker-CVE-2012-2122/" class="post-title-link" itemprop="url">Docker Installation & CVE-2012-2122 Reproduction</a>
+            <a href="/03/25/2022/Docker-CVE-2012-2122/" class="post-title-link" itemprop="url">Docker Installation & CVE-2012-2122 Reproduction</a>
         </h2>
 
         <div class="post-meta">
@@ -793,7 +907,7 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 03-24-2022 19:39:08" itemprop="dateCreated datePublished" datetime="2022-03-24T19:39:08-04:00">03-24-2022</time>
+              <time title="Created: 03-25-2022 07:39:08" itemprop="dateCreated datePublished" datetime="2022-03-25T07:39:08+08:00">03-25-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -819,82 +933,6 @@
           <p>Here are some useful links for reference, I believe they are enough.<br>Note: as for the docker and docker-compose installation and uninstallation, pay attention to some port numbers.</p>
 <hr>
 <p>References:<br><a target="_blank" rel="noopener" href="https://github.com/vulhub/vulhub">https://github.com/vulhub/vulhub</a><br><a target="_blank" rel="noopener" href="https://phoenixnap.com/kb/how-to-install-docker-on-debian-10">https://phoenixnap.com/kb/how-to-install-docker-on-debian-10</a><br><a target="_blank" rel="noopener" href="https://docs.docker.com/compose/install/#alternative-install-options">https://docs.docker.com/compose/install/#alternative-install-options</a><br><a target="_blank" rel="noopener" href="https://docs.docker.com/engine/install/debian/#install-from-a-package">https://docs.docker.com/engine/install/debian/#install-from-a-package</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/--kisaragi--/p/15393747.html">https://www.cnblogs.com/--kisaragi--/p/15393747.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-      <footer class="post-footer">
-        <div class="post-eof"></div>
-      </footer>
-  </article>
-  
-  
-  
-
-      
-  
-  
-  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/02/08/2022/Nessus-Installation/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
-      <meta itemprop="name" content="GL">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Cybersecurity Learner">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          
-            <a href="/02/08/2022/Nessus-Installation/" class="post-title-link" itemprop="url">Nessus Installation</a>
-        </h2>
-
-        <div class="post-meta">
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-calendar"></i>
-              </span>
-              <span class="post-meta-item-text">Posted on</span>
-
-              <time title="Created: 02-08-2022 19:26:33" itemprop="dateCreated datePublished" datetime="2022-02-08T19:26:33-05:00">02-08-2022</time>
-            </span>
-            <span class="post-meta-item">
-              <span class="post-meta-item-icon">
-                <i class="far fa-folder"></i>
-              </span>
-              <span class="post-meta-item-text">In</span>
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
-                </span>
-            </span>
-
-          
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-          <ol>
-<li>Download the [amd64.deb] file from official website</li>
-<li>Install Debian packages<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -<span class="selector-tag">i</span> <span class="selector-attr">[amd64.deb]</span></span><br></pre></td></tr></table></figure></li>
-<li>Start service<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/bin/</span>systemctl start nessusd.service</span><br></pre></td></tr></table></figure></li>
-<li>Check port<pre><code>netstat -ntpl | grep nessus
-</code></pre>
-</li>
-</ol>
-<hr>
-<p>References:<br><a target="_blank" rel="noopener" href="https://www.tenable.com/downloads/nessus?loginAttempted=true">https://www.tenable.com/downloads/nessus?loginAttempted=true</a><br><a target="_blank" rel="noopener" href="https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html">https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012318074/article/details/72354387">https://blog.csdn.net/u012318074/article/details/72354387</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuyiqing/p/9712892.html">https://www.cnblogs.com/xuyiqing/p/9712892.html</a></p>
 
       
     </div>
@@ -981,7 +1019,7 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -1021,7 +1059,7 @@
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>

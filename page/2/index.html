@@ -185,7 +185,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
-    <link itemprop="mainEntityOfPage" href="http://example.com/01/24/2022/CentOS7-network-connection/">
+    <link itemprop="mainEntityOfPage" href="http://example.com/02/09/2022/Nessus-Installation/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
@@ -199,7 +199,7 @@
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
           
-            <a href="/01/24/2022/CentOS7-network-connection/" class="post-title-link" itemprop="url">VMware CentOS7 cannot connect to the network</a>
+            <a href="/02/09/2022/Nessus-Installation/" class="post-title-link" itemprop="url">Nessus Installation</a>
         </h2>
 
         <div class="post-meta">
@@ -209,7 +209,83 @@
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 01-24-2022 19:15:58" itemprop="dateCreated datePublished" datetime="2022-01-24T19:15:58-05:00">01-24-2022</time>
+              <time title="Created: 02-09-2022 08:26:33" itemprop="dateCreated datePublished" datetime="2022-02-09T08:26:33+08:00">02-09-2022</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">In</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Kali/" itemprop="url" rel="index"><span itemprop="name">Kali</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <ol>
+<li>Download the [amd64.deb] file from official website</li>
+<li>Install Debian packages<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">dpkg -<span class="selector-tag">i</span> <span class="selector-attr">[amd64.deb]</span></span><br></pre></td></tr></table></figure></li>
+<li>Start service<figure class="highlight awk"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="regexp">/bin/</span>systemctl start nessusd.service</span><br></pre></td></tr></table></figure></li>
+<li>Check port<pre><code>netstat -ntpl | grep nessus
+</code></pre>
+</li>
+</ol>
+<hr>
+<p>References:<br><a target="_blank" rel="noopener" href="https://www.tenable.com/downloads/nessus?loginAttempted=true">https://www.tenable.com/downloads/nessus?loginAttempted=true</a><br><a target="_blank" rel="noopener" href="https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html">https://wizardforcel.gitbooks.io/daxueba-kali-linux-tutorial/content/27.html</a><br><a target="_blank" rel="noopener" href="https://blog.csdn.net/u012318074/article/details/72354387">https://blog.csdn.net/u012318074/article/details/72354387</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/xuyiqing/p/9712892.html">https://www.cnblogs.com/xuyiqing/p/9712892.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/01/25/2022/CentOS7-network-connection/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/105226503_p0_master1200.jpg">
+      <meta itemprop="name" content="GL">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Cybersecurity Learner">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/01/25/2022/CentOS7-network-connection/" class="post-title-link" itemprop="url">VMware CentOS7 cannot connect to the network</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">Posted on</span>
+
+              <time title="Created: 01-25-2022 08:15:58" itemprop="dateCreated datePublished" datetime="2022-01-25T08:15:58+08:00">01-25-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -281,7 +357,7 @@ Then reboot and test the results.</li>
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 01-24-2022 04:01:47" itemprop="dateCreated datePublished" datetime="2022-01-24T04:01:47-05:00">01-24-2022</time>
+              <time title="Created: 01-24-2022 17:01:47" itemprop="dateCreated datePublished" datetime="2022-01-24T17:01:47+08:00">01-24-2022</time>
             </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -354,7 +430,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
               </span>
               <span class="post-meta-item-text">Posted on</span>
 
-              <time title="Created: 12-25-2021 00:01:25" itemprop="dateCreated datePublished" datetime="2021-12-25T00:01:25-05:00">12-25-2021</time>
+              <time title="Created: 12-25-2021 13:01:25" itemprop="dateCreated datePublished" datetime="2021-12-25T13:01:25+08:00">12-25-2021</time>
             </span>
 
           
@@ -455,7 +531,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">13</span>
+          <span class="site-state-item-count">14</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -495,7 +571,7 @@ These two lines of code don’t necessarily solve the bridge networking problem<
 <div class="copyright">
   
   &copy; 
-  <span itemprop="copyrightYear">2024</span>
+  <span itemprop="copyrightYear">2025</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
